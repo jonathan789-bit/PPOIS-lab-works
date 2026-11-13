@@ -6,7 +6,7 @@
 #include <map>
 #include <string>
 #include <vector>
-
+#include "command.h"
 /// Operations supported by the Post machine.
 enum class PostOp {
     Write0, Write1, MoveLeft, MoveRight, JumpIfZero, JumpIfOne, Halt
