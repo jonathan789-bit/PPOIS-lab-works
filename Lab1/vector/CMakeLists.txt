@@ -20,17 +20,3 @@ target_link_libraries(
     VectorApp
     VectorLibrary
 )
-
-# find_package(GTest REQUIRED)
-# add_executable(
-#     VectorTests
-#     test/VectorTests.cpp
-# )
-# target_link_libraries(
-#     VectorTests
-#     VectorLibrary
-#     GTest::gtest
-#     GTest::gtest_main
-# )
-# include(GoogleTest)
-# gtest_discover_tests(VectorTests)
