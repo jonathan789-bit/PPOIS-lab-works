@@ -1,0 +1,53 @@
+name: C++ CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "2nd-branch" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # ---------------------------------------------------------
+    # POSTMACHINE PROJECT
+    # ---------------------------------------------------------
+    - name: Configure CMake (PostMachine)
+      working-directory: ./Lab1/PostMachine
+      run: cmake -B build -S .
+
+    - name: Build PostMachine
+      working-directory: ./Lab1/PostMachine
+      run: cmake --build build --config Release
+
+    # ---------------------------------------------------------
+    # VECTOR PROJECT
+    # ---------------------------------------------------------
+    - name: Configure CMake (Vector)
+      working-directory: ./Lab1/vector
+      run: cmake -B build -S .
+
+    - name: Build Vector
+      working-directory: ./Lab1/vector
+      run: cmake --build build --config Release
+
+    # ---------------------------------------------------------
+    # ARTIFACT PUBLISHING (Release)
+    # ---------------------------------------------------------
+    # This step packages the built .exe files so you can download them later
+    - name: Package Artifacts
+      run: |
+        mkdir release_artifacts
+        Copy-Item -Path "Lab1/PostMachine/build/Release/PostMachineApp.exe" -Destination "release_artifacts/" -ErrorAction SilentlyContinue
+        Copy-Item -Path "Lab1/vector/build/Release/VectorApp.exe" -Destination "release_artifacts/" -ErrorAction SilentlyContinue
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Lab1-Executables
+        path: release_artifacts/
